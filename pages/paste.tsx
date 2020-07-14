@@ -64,6 +64,7 @@ export default function Home() {
          </Head>
 
          <div className="container">
+
             <form style={currentForm === "apiName" ? {} : { display: "none" }}>
                <label> Provide API Name: </label>
                <input
@@ -71,7 +72,6 @@ export default function Home() {
                   value={apiName1}
                   onChange={e => setApiName1(e.target.value)}
                />
-
                <input
                   type="button"
                   value="Check Name"
@@ -80,8 +80,7 @@ export default function Home() {
             </form>
 
 
-            <form style={currentForm === "jsonArr" ? {} : { display: "none" }}
-            >
+            <form style={currentForm === "jsonArr" ? {} : { display: "none" }}>
                <label>Paste JSON array: </label>
                <textarea
                   rows={25}
@@ -101,19 +100,6 @@ export default function Home() {
             </h3>
 
          </div>
-
-         <style jsx>{`
-            .container {
-               text-align: center;
-            }
-            h3 {
-               font-family: monospace;
-            }
-            input, label {
-               display: column;
-               vertical-align: top;
-            }
-         `}</style>
       </>
    )
 }
