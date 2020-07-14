@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useState } from "react"
 import Router from 'next/router'
-
+import { checkValidity } from '../middleware/valid_name'
 
 export default function Home() {
    const [currentForm, setCurrentForm] = useState<string>("apiName")
@@ -11,24 +11,19 @@ export default function Home() {
 
 
    const checkName = async () => {
+      if (checkValidity(apiName1)) {
+         setMessage1("Loading...")
 
-      setMessage1("Loading...")
-      const post1 = {         // data should be sent in the form of object
-         apiName: apiName1
-      }
+         const res1 = await fetch(`${process.env.BASE_URL}/api/${apiName1}`)
 
-      const res1 = await fetch(`${process.env.BASE_URL}/api/check_name`, {
-         method: "post",
-         body: JSON.stringify(post1)
-      })
-
-      if (res1.status === 210) {
-         setMessage1("")
-         setCurrentForm("jsonArr")
-      } else if (res1.status === 220) {
+         if (res1.status === 200) {
+            setMessage1("This name is already in use, try another")
+         } else if (res1.status === 400) {
+            setMessage1("")
+            setCurrentForm("jsonArr")
+         }
+      } else {
          setMessage1(`Name should have more than 3 characters which can only contain "[A-Z, a-z, 0-9, -, _]"`)
-      } else if (res1.status === 230) {
-         setMessage1("This name is already in use, try another")
       }
    }
 

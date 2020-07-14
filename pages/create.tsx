@@ -64,16 +64,11 @@ const Create = () => {
    const handleCreateAPI = async () => {
       if (checkValidity(apiName)) {
          setMessage1("")
-         const post1 = {
-            apiName: apiName
-         }
-         setMessage1("Loading...")
-         const res1 = await fetch(`${process.env.BASE_URL}/api/check_name`, {
-            method: "post",
-            body: JSON.stringify(post1)
-         })
 
-         if (res1.status === 210) {
+         setMessage1("Loading...")
+         const res1 = await fetch(`${process.env.BASE_URL}/api/${apiName}`)
+
+         if (res1.status === 400) {
             const post2 = {
                apiName: apiName,
                jsonArr: objArr1
@@ -87,8 +82,10 @@ const Create = () => {
             } else {
                setMessage1("problem in creating API")
             }
-         } else {
+         } else if (res1.status === 200) {
             setMessage1("This name is already in use, try another")
+         } else {
+            setMessage1("Problem in JSON-API")
          }
       } else {
          setMessage1(`Name should have more than 3 characters which can only contain "[A-Z, a-z, 0-9, -, _]"`)

@@ -11,27 +11,27 @@ interface reqWithMongo extends NextApiRequest {
    db: any
 }
 
-interface jsonArr {
+interface jsonObj {
    _id: string
 }
 
-// const path1 = req.query.mongodb
-
 handler.get(async (req: reqWithMongo, res) => {
-   let doc = await req.db.collection(req.query.mongodb).find({}).toArray()
-   res.json(doc)
+   try {
+      let doc = await req.db.collection("aaa111").findOne({ apiName: req.query.mongodb })
+      res.status(200).json(doc.jsonArr)
+   } catch (err) {
+      res.status(400).end("apiName not used")
+   }
 })
 
 handler.post(async (req: reqWithMongo, res) => {
    try {
-      let dataObj = await JSON.parse(req.body)
-      const apiName = dataObj.apiName
-      let arr1 = dataObj.jsonArr
-      arr1 = arr1.map((el: jsonArr) => {
+      let dataObj = await JSON.parse(req.body)  // {apiName: xyz, arr1: [{}]}
+      dataObj.jsonArr = dataObj.jsonArr.map((el: jsonObj) => {
          if (el._id) el._id = convertToObjectId(el._id)
          return el
       }) // _id should "ObjectId" else it will cause problems during "findByIdAndDelete()"
-      const doc = await req.db.collection(apiName).insertMany(arr1)
+      const doc = await req.db.collection("aaa111").insertOne(dataObj)
       console.log(doc.ops)
       res.status(210)
    } catch (err) {
