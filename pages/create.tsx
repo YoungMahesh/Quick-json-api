@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { checkValidity } from '../middleware/valid_name'
 import Router from "next/router"
 
@@ -15,16 +15,20 @@ const Create = () => {
 
    // crete object array
    const [currObj, setCurrObj] = useState<Record<string, string>>({})
+   const [currObjIdx, setCurrObjIdx] = useState<number>(-1)
+   const [updateBtnDisabled, setUpdateBtnDisabled] = useState<boolean>(true)
    const [objArr1, setObjArr1] = useState<Array<Object>>([])
 
    // create json-api
    const [apiName, updateAPIName] = useState<string>("")
    const [message1, setMessage1] = useState<string>("")
 
-   // useEffect(() => {       // check results in console.log
-   //    console.log(currObj)
-   //    console.log(objArr1)
-   // }, [currObj, objArr1])
+   let counter = 0;
+   function getUniqueKey() {
+      counter++
+      return counter
+   }
+
 
    const handleKeyInput = () => {
       if (!(currentKey.length === 0 || keysSet.has(currentKey))) {
@@ -44,12 +48,38 @@ const Create = () => {
       setCurrObj({ ...currObj, [`${key1}`]: value1 })
    }
 
-   const handleAddCurrObj = async () => {
-      setObjArr1([...objArr1, currObj])   // add currentObj to objArr
+
+   const editValues = (idx: number) => {
+      setCurrObjIdx(idx)
+      setUpdateBtnDisabled(false)
+      const values1 = Object.values(objArr1[idx]) // not using "currObjIdx" directly, as this is async function and takes some time, hence "currObjIdx" is not available at the time of this execution
+      const objKeys = document.getElementsByClassName("objKey") as HTMLCollectionOf<HTMLInputElement>
+      for (let i = 0; i < objKeys.length; i++) {
+         objKeys[i].value = values1[i]
+         // need to execute handleObjCretion() properly so we can enable "add Value" button during editValues
+      }
+   }
+
+
+   const removeValues = (idx: number) => {
+      const newObjArr = objArr1.filter(el => objArr1.indexOf(el) !== idx)
+      setObjArr1(newObjArr)
+   }
+
+   const handleAddCurrObj = async (isNew: boolean) => {
+      setUpdateBtnDisabled(true)
+      if (isNew) {                // add currentObj to objArr
+         setObjArr1([...objArr1, currObj])
+      } else {                    // update currObj in objArr
+         objArr1[currObjIdx] = currObj
+      }
 
       // clear the input fields 
       const objKeys = document.getElementsByClassName("objKey") as HTMLCollectionOf<HTMLInputElement>
-      for (let i = 0; i < objKeys.length; i++) objKeys[i].value = ""
+      for (let i = 0; i < objKeys.length; i++) {
+         objKeys[i].value = ""
+         setCurrObj({})
+      }
    }
 
    const handleGetAPIName = () => {
@@ -132,7 +162,24 @@ const Create = () => {
             {/* Form2 => Create "Array of Objects" */}
             <div style={currentForm === "objArr" ? {} : { display: "none" }}>
                <div>
-                  <pre>{JSON.stringify(objArr1, null, 4)}</pre>
+                  {objArr1.map((obj, idx) =>
+                     <div
+                        key={getUniqueKey()}
+                        style={{ display: "flex" }}
+                     >
+                        <pre>{JSON.stringify(obj, null, 2)}</pre>
+                        <input
+                           type="button"
+                           value="Edit"
+                           onClick={e => editValues(objArr1.indexOf(obj))}
+                        />
+                        <input
+                           type="button"
+                           value="remove"
+                           onClick={e => removeValues(objArr1.indexOf(obj))}
+                        />
+                     </div>
+                  )}
                </div>
 
                <form>
@@ -150,8 +197,15 @@ const Create = () => {
                   }
                   <input
                      type="button"
-                     value="Submit this data"
-                     onClick={handleAddCurrObj}
+                     value="Update"
+                     disabled={updateBtnDisabled}
+                     onClick={e => handleAddCurrObj(false)}
+                  />
+                  <input
+                     type="button"
+                     value="Add New"
+                     disabled={!updateBtnDisabled}
+                     onClick={e => handleAddCurrObj(true)}
                   />
                   <input
                      type="button"
