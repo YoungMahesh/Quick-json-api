@@ -5,7 +5,7 @@ import JSONAPICreation from '../components/3.json_api_creation'
 export default function Home() {
    const [currentForm, setCurrentForm] = useState<string>("jsonArr")
 
-   const [objArrStr, updateObjArrStr] = useState<string>("")
+   const [objArrStr, setObjArrStr] = useState<string>("")
    const [message1, setMessage1] = useState<string>("")
 
    const [objArr, setObjArr] = useState<Array<Object>>([])
@@ -16,6 +16,7 @@ export default function Home() {
          // we need to parse jsonArr1 as it already get stringified because of HTML-textArea area to get "pure object"
 
          setObjArr(objArr1)
+         setObjArrStr("")           // clear textArea
          setCurrentForm("apiName")
       } catch (err) {
          setMessage1("Your JSON array structure is wrong")
@@ -37,7 +38,7 @@ export default function Home() {
                   rows={25}
                   cols={50}
                   value={objArrStr}
-                  onChange={e => updateObjArrStr(e.target.value)}
+                  onChange={e => setObjArrStr(e.target.value)}
                />
                <input
                   type="button"

@@ -24,10 +24,11 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
       setCurrObjIdx(idx)
       setUpdateBtnDisabled(false)
       const values1 = Object.values(objArr[idx]) // not using "currObjIdx" directly, as this is async function and takes some time, hence "currObjIdx" is not available at the time of this execution
+      setCurrObj({})                   // currObj is emptified
       const objKeys = document.getElementsByClassName("objKey") as HTMLCollectionOf<HTMLInputElement>
       for (let i = 0; i < objKeys.length; i++) {
          objKeys[i].value = values1[i]
-         // need to execute handleObjCretion() properly so we can enable "add Value" button during editValues
+         handleObjCreation(keysArr[i], values1[i])    // values in currObj updated
       }
    }
 
@@ -47,9 +48,10 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
 
       // clear the input fields 
       const objKeys = document.getElementsByClassName("objKey") as HTMLCollectionOf<HTMLInputElement>
+      setCurrObj({})                         // clear curr obj
       for (let i = 0; i < objKeys.length; i++) {
          objKeys[i].value = ""
-         // setCurrObj({})
+         handleObjCreation(keysArr[i], "")   // add objKeys without values
       }
    }
 
@@ -93,7 +95,7 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
                      <input
                         type="text"
                         className="objKey"
-                        onChange={e => handleObjCreation(el, e.target.value)}
+                        onChange={e => handleObjCreation(el, e.currentTarget.value)}
                      />
                   </label>
                )
@@ -107,7 +109,7 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
             <input
                type="button"
                value="Add New"
-               disabled={!updateBtnDisabled}
+
                onClick={e => handleAddCurrObj(true)}
             />
             <input

@@ -1,5 +1,5 @@
-export const checkValidity = (name) => {
-   if (name.length < 3) return false
+export const checkValidity = (name, password) => {
+   if (name.length < 3 || password.length < 4) return false
    const isValid = name.split('').every((el) => {
       if ((el.charCodeAt() >= 97 && el.charCodeAt() <= 122) ||   // a-z
          (el.charCodeAt() >= 65 && el.charCodeAt() <= 90) ||      // A-Z

@@ -16,7 +16,7 @@ interface jsonObj {
 }
 
 handler.get(async (req: reqWithMongo, res) => {
-   try {
+   try {    // "res.statusMessage" does not work on vercel hosting
       let doc = await req.db.collection("aaa111").findOne({ apiName: req.query.mongodb })
       res.status(200).json(doc.jsonArr)
    } catch (err) {
