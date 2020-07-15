@@ -1,52 +1,23 @@
 import Head from 'next/head'
 import { useState } from "react"
-import Router from 'next/router'
-import { checkValidity } from '../middleware/valid_name'
+import JSONAPICreation from '../components/3.json_api_creation'
 
 export default function Home() {
-   const [currentForm, setCurrentForm] = useState<string>("apiName")
-   const [apiName1, setApiName1] = useState<string>("")
-   const [jsonArr1, updateJsonArr1] = useState<string>("")
+   const [currentForm, setCurrentForm] = useState<string>("jsonArr")
+
+   const [objArrStr, updateObjArrStr] = useState<string>("")
    const [message1, setMessage1] = useState<string>("")
 
-
-   const checkName = async () => {
-      if (checkValidity(apiName1)) {
-         setMessage1("Loading...")
-
-         const res1 = await fetch(`${process.env.BASE_URL}/api/${apiName1}`)
-
-         if (res1.status === 200) {
-            setMessage1("This name is already in use, try another")
-         } else if (res1.status === 400) {
-            setMessage1("")
-            setCurrentForm("jsonArr")
-         }
-      } else {
-         setMessage1(`Name should have more than 3 characters which can only contain "[A-Z, a-z, 0-9, -, _]"`)
-      }
-   }
-
+   const [objArr, setObjArr] = useState<Array<Object>>([])
 
    const handleSubmit = async () => {
       try {
-         const post2 = {
-            apiName: apiName1,
-            jsonArr: await JSON.parse(jsonArr1) // stringObj => normalObj  
-            // we need to parse jsonArr1 as it already get stringified because of HTML-textArea area to get "pure object"
-         }
-         setMessage1("Loading...")
-         const res2 = await fetch(`${process.env.BASE_URL}/api/${apiName1}`, {
-            method: "post",
-            body: JSON.stringify(post2)      // only stringified data can be send to the backend
-         })
+         const objArr1 = await JSON.parse(objArrStr)  // stringObj => normalObj  
+         // we need to parse jsonArr1 as it already get stringified because of HTML-textArea area to get "pure object"
 
-         if (res2.status === 210) {
-            Router.push(`/api/${apiName1}`)
-         } else {
-            setMessage1("Your JSON array structure is wrong")
-         }
-      } catch  {
+         setObjArr(objArr1)
+         setCurrentForm("apiName")
+      } catch (err) {
          setMessage1("Your JSON array structure is wrong")
       }
    }
@@ -60,39 +31,28 @@ export default function Home() {
 
          <div className="container">
 
-            <form style={currentForm === "apiName" ? {} : { display: "none" }}>
-               <label> Provide API Name: </label>
-               <input
-                  type="input"
-                  value={apiName1}
-                  onChange={e => setApiName1(e.target.value)}
-               />
-               <input
-                  type="button"
-                  value="Check Name"
-                  onClick={checkName}
-               />
-            </form>
-
-
             <form style={currentForm === "jsonArr" ? {} : { display: "none" }}>
                <label>Paste JSON array: </label>
                <textarea
                   rows={25}
                   cols={50}
-                  value={jsonArr1}
-                  onChange={e => updateJsonArr1(e.target.value)}
+                  value={objArrStr}
+                  onChange={e => updateObjArrStr(e.target.value)}
                />
                <input
                   type="button"
                   value="Submit"
                   onClick={e => handleSubmit()}
                />
+
+               <h3> {message1} </h3>
             </form>
 
-            <h3>
-               {message1}
-            </h3>
+            <div style={currentForm === "apiName" ? {} : { display: "none" }}>
+               <JSONAPICreation
+                  objArr={objArr}
+               />
+            </div>
 
          </div>
       </>
