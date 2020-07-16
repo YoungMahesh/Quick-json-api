@@ -19,6 +19,11 @@ const Home = () => {
                   <a>Create API by writing JSON object array</a>
                </Link>
             </h3>
+            <h3>
+               <Link href="/edit">
+                  <a>Edit your API</a>
+               </Link>
+            </h3>
          </div>
       </>
    )

@@ -27,7 +27,7 @@ const JSONAPICreation = ({ objArr }: ListProps) => {
                jsonArr: objArr
             }
             setPassword("")
-            const res2 = await fetch(`${process.env.BASE_URL}/api/${apiName}`, {
+            const res2 = await fetch(`${process.env.BASE_URL}/api/${apiName}?mission=add`, {
                method: "post",
                body: JSON.stringify(post2)
             })
@@ -42,8 +42,8 @@ const JSONAPICreation = ({ objArr }: ListProps) => {
             setMessage1("Problem in JSON-API")
          }
       } else {
-         setMessage1(`API-Name should be aleast 3 characters long and can only contain "[A-Z, a-z, 0-9, -, _]". 
-         Password should be atleast 4 characters long.`)
+         setMessage1(`<p>API-Name should be aleast 3 characters long and can only contain "[A-Z, a-z, 0-9, -, _]".</p>
+         <p>Password should be atleast 4 characters long.</p>`)
       }
    }
 
@@ -74,7 +74,7 @@ const JSONAPICreation = ({ objArr }: ListProps) => {
             />
          </form>
 
-         <p>{message1}</p>
+         <div>{message1}</div>
       </div>
    )
 }

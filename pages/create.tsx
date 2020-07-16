@@ -42,6 +42,7 @@ const Create = () => {
                objArr={objArr}
                setObjArr={setObjArr}
                keysArr={keysArr}
+               editForm={false}
             />
 
 

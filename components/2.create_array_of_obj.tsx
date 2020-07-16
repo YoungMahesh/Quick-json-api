@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface ListProps {
    currentForm: string
@@ -6,17 +6,18 @@ interface ListProps {
    objArr: Array<Object>
    setObjArr: Function
    keysArr: Array<string>
+   editForm: boolean
 }
 
-const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, keysArr }: ListProps) => {
+const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, keysArr, editForm }: ListProps) => {
 
-   const [currObj, setCurrObj] = useState<Object>({})
+   let [currObj, setCurrObj] = useState<Object>({})
    const [currObjIdx, setCurrObjIdx] = useState<number>(-1)
    const [updateBtnDisabled, setUpdateBtnDisabled] = useState<boolean>(true)
    const [message1, setMessage1] = useState<string>("")
 
    const handleObjCreation = (key1: string, value1: string) => {
-      setCurrObj({ ...currObj, [`${key1}`]: value1 })
+      currObj = { ...currObj, [`${key1}`]: value1 }
    }
 
 
@@ -30,6 +31,7 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
          objKeys[i].value = values1[i]
          handleObjCreation(keysArr[i], values1[i])    // values in currObj updated
       }
+      setCurrObj(currObj)
    }
 
 
@@ -53,19 +55,23 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
          objKeys[i].value = ""
          handleObjCreation(keysArr[i], "")   // add objKeys without values
       }
+      setCurrObj(currObj)
    }
 
-   const handleGetAPIName = () => {
+   const sendToNextPage = () => {
       if (objArr.length > 0) {
-         setCurrentForm("apiName")
+         editForm ? setCurrentForm("editPage2") : setCurrentForm("apiName")
          setMessage1("")
       } else {
          setMessage1("Your object-array is empty")
       }
    }
 
+
+
    return (
       <div style={currentForm === "objArr" ? {} : { display: "none" }}>
+         <p>Obj creation page is loaded</p>
          <div>
             {objArr.map((obj, idx) =>
                <div
@@ -89,8 +95,8 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
 
          <form>
             {
-               keysArr.map(el =>
-                  <label key={el}>
+               keysArr.map((el, idx) =>
+                  <label key={idx}>
                      {`${el}: `}
                      <input
                         type="text"
@@ -109,13 +115,12 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
             <input
                type="button"
                value="Add New"
-
                onClick={e => handleAddCurrObj(true)}
             />
             <input
                type="button"
                value="Create JSON API"
-               onClick={handleGetAPIName}
+               onClick={sendToNextPage}
             />
          </form>
 
