@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 interface ListProps {
-   currentForm: string
+   setMessage1: Function
    setCurrentForm: Function
    objArr: Array<Object>
    setObjArr: Function
@@ -9,12 +9,12 @@ interface ListProps {
    editForm: boolean
 }
 
-const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, keysArr, editForm }: ListProps) => {
+const CreateArrOfObjects = ({ setMessage1, setCurrentForm, objArr, setObjArr, keysArr, editForm }: ListProps) => {
 
    let [currObj, setCurrObj] = useState<Object>({})
    const [currObjIdx, setCurrObjIdx] = useState<number>(-1)
    const [updateBtnDisabled, setUpdateBtnDisabled] = useState<boolean>(true)
-   const [message1, setMessage1] = useState<string>("")
+
 
    const handleObjCreation = (key1: string, value1: string) => {
       currObj = { ...currObj, [`${key1}`]: value1 }
@@ -60,7 +60,7 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
 
    const sendToNextPage = () => {
       if (objArr.length > 0) {
-         editForm ? setCurrentForm("editPage2") : setCurrentForm("apiName")
+         setCurrentForm("apiName")
          setMessage1("")
       } else {
          setMessage1("Your object-array is empty")
@@ -70,8 +70,7 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
 
 
    return (
-      <div style={currentForm === "objArr" ? {} : { display: "none" }}>
-         <p>Obj creation page is loaded</p>
+      <>
          <div>
             {objArr.map((obj, idx) =>
                <div
@@ -117,15 +116,19 @@ const CreateArrOfObjects = ({ currentForm, setCurrentForm, objArr, setObjArr, ke
                value="Add New"
                onClick={e => handleAddCurrObj(true)}
             />
-            <input
-               type="button"
-               value="Create JSON API"
-               onClick={sendToNextPage}
-            />
+            {
+               editForm ? (<></>)
+                  : (
+                     <input
+                        type="button"
+                        value="Create JSON API"
+                        onClick={sendToNextPage}
+                     />
+                  )
+            }
          </form>
 
-         <p>{message1}</p>
-      </div>
+      </>
    )
 }
 

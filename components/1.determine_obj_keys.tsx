@@ -1,7 +1,6 @@
 import { useState } from "react"
 
 interface propsList {
-   currentForm: string
    setCurrentForm: Function
    keysArr: Array<string>
    setKeysArr: Function
@@ -9,7 +8,7 @@ interface propsList {
    setKeysSet: Function
 }
 
-const DetermineObjKeys = ({ currentForm, setCurrentForm, keysArr, setKeysArr, keysSet, setKeysSet }: propsList) => {
+const DetermineObjKeys = ({ setCurrentForm, keysArr, setKeysArr, keysSet, setKeysSet }: propsList) => {
 
    const [currentKey, setCurrentKey] = useState("")
 
@@ -29,7 +28,7 @@ const DetermineObjKeys = ({ currentForm, setCurrentForm, keysArr, setKeysArr, ke
 
 
    return (
-      <div style={currentForm === "objKeys" ? {} : { display: "none" }}>
+      <>
          <h2>Determine Key-Fields for Each Object</h2>
          {
             keysArr.map(el => <p key={el}>{el}</p>)
@@ -54,7 +53,7 @@ const DetermineObjKeys = ({ currentForm, setCurrentForm, keysArr, setKeysArr, ke
                onClick={handleSubmitForm1}
             />
          </form>
-      </div>
+      </>
    )
 }
 

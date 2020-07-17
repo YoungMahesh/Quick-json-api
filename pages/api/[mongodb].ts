@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import nextConnect from "next-connect"
-import mongodbConnection, { convertToObjectId } from '../../middleware/mongodb'
+import nextConnect from 'next-connect'
+import mongodbConnection from '../../backend/mongodb'
 import corsMiddleware from '../../middleware/cors'
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>()
@@ -28,7 +28,7 @@ handler.get(async (req: reqWithMongo, res) => {
             res.status(400).end()
          } else {
             console.log("GET request for password check: Fullfilled")
-            res.status(200).end()
+            res.status(200).json(doc.jsonArr)
          }
       } catch (err) {
          console.log("GET request for password check: Problem in server\n", err)
