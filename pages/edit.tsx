@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import CreateArrOfObjects from "../components/2.create_array_of_obj"
-import ApiNameAndPassword from "../components/3.apiName_and_password"
-import { matchApiNameAndPassword, handleAPICreation } from '../backend/handleCreateApi'
+import { getObjArray, handleAPIModification } from '../backend/manageAPIdata'
+
 
 const EditAPI = () => {
 
@@ -25,21 +25,25 @@ const EditAPI = () => {
    }, [objArr])
 
 
+
    return (
       <div className="container">
 
-         {/*         Form1 =>  Check ApiName and Password      */}
+         {/*         Form1 =>  Get ApiName     */}
          <div style={currentForm === "editPage" ? {} : { display: "none" }}>
-            <ApiNameAndPassword
-               apiName={apiName}
-               setApiName={setApiName}
-               password={password}
-               setPassword={setPassword}
+            <label>
+               Provide API-Name:
+            </label>
+            <input
+               type="text"
+               value={apiName}
+               onChange={e => setApiName(e.target.value)}
             />
+
             <input
                type="button"
                value="Submit"
-               onClick={e => matchApiNameAndPassword(apiName, password, setMessage1, setKeysArr, setObjArr)}
+               onClick={e => getObjArray(apiName, setMessage1, setKeysArr, setObjArr)}
             />
          </div>
 
@@ -54,14 +58,25 @@ const EditAPI = () => {
                keysArr={keysArr}
                editForm={true}
             />
+         </div>
+
+         {/*         Form3  =>   Add Password */}
+         <div style={currentForm === "getPassword" ? {} : { display: "none" }}>
+            <label>
+               Provide Password of this API:
+            </label>
+            <input
+               type="password"
+               value={password}
+               onChange={e => setPassword(e.target.value)}
+            />
 
             <input
                type="button"
                value="Submit"
-               onClick={e => handleAPICreation(objArr, apiName, password, setMessage1, "edit-api")}
+               onClick={e => handleAPIModification(apiName, password, objArr, setMessage1)}
             />
          </div>
-
 
          <h3>{message1}</h3>
       </div>

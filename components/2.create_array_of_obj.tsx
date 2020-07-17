@@ -60,7 +60,7 @@ const CreateArrOfObjects = ({ setMessage1, setCurrentForm, objArr, setObjArr, ke
 
    const sendToNextPage = () => {
       if (objArr.length > 0) {
-         setCurrentForm("apiName")
+         editForm ? setCurrentForm("getPassword") : setCurrentForm("apiName")
          setMessage1("")
       } else {
          setMessage1("Your object-array is empty")
@@ -116,16 +116,11 @@ const CreateArrOfObjects = ({ setMessage1, setCurrentForm, objArr, setObjArr, ke
                value="Add New"
                onClick={e => handleAddCurrObj(true)}
             />
-            {
-               editForm ? (<></>)
-                  : (
-                     <input
-                        type="button"
-                        value="Create JSON API"
-                        onClick={sendToNextPage}
-                     />
-                  )
-            }
+            <input
+               type="button"
+               value="Create JSON API"
+               onClick={sendToNextPage}
+            />
          </form>
 
       </>

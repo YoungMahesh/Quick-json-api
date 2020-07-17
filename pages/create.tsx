@@ -3,7 +3,7 @@ import { useState } from "react"
 import DetermineObjKeys from '../components/1.determine_obj_keys'
 import CreateArrOfObjects from '../components/2.create_array_of_obj'
 import ApiNameAndPassword from '../components/3.apiName_and_password'
-import { handleAPICreation } from '../backend/handleCreateApi'
+import { handleAPICreation } from '../backend/manageAPIdata'
 
 
 const Create = () => {
@@ -65,7 +65,7 @@ const Create = () => {
                <input
                   type="button"
                   value="Submit"
-                  onClick={e => handleAPICreation(objArr, apiName, password, setMessage1, "create-new-api")}
+                  onClick={e => handleAPICreation(objArr, apiName, password, setMessage1)}
                />
             </div>
 

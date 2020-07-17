@@ -9,21 +9,31 @@ const Home = () => {
          </Head>
 
          <div className="container">
+
             <h3>
                <Link href='/paste'>
                   <a>Create API by pasting JSON array</a>
                </Link>
             </h3>
+
             <h3>
                <Link href="/create">
                   <a>Create API by writing JSON object array</a>
                </Link>
             </h3>
+
             <h3>
                <Link href="/edit">
                   <a>Edit your API</a>
                </Link>
             </h3>
+
+            <h3>
+               <Link href="delete">
+                  <a>Delete your API</a>
+               </Link>
+            </h3>
+
          </div>
       </>
    )

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useState } from "react"
 import ApiNameAndPassword from '../components/3.apiName_and_password'
-import { handleAPICreation } from '../backend/handleCreateApi'
+import { handleAPICreation } from '../backend/manageAPIdata'
 
 
 export default function Home() {
@@ -66,7 +66,7 @@ export default function Home() {
                <input
                   type="button"
                   value="Submit"
-                  onClick={e => handleAPICreation(objArr, apiName, password, setMessage1, "create-new-api")}
+                  onClick={e => handleAPICreation(objArr, apiName, password, setMessage1)}
                />
             </div>
 
