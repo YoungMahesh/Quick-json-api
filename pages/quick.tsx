@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import Link from "next/link"
 
 const Quick = () => {
@@ -6,6 +7,11 @@ const Quick = () => {
 
    return (
       <div className="container">
+
+         <Head>
+            <title>Random API</title>
+         </Head>
+
          <div className="block2-container">
             {
                listOfAPIs.map((apiName, idx) =>

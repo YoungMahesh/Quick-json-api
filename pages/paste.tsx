@@ -29,49 +29,50 @@ export default function Home() {
    }
 
    return (
-      <>
+
+
+      <div className="container">
+
          <Head>
             <title>Paste JSON</title>
             <link rel="icon" href="/favicon.ico" />
          </Head>
 
-         <div className="container">
-
-            {/*        Form1 => Paste JSON array           */}
-            <form style={currentForm === "jsonArr" ? {} : { display: "none" }}>
-               <label>Paste JSON array: </label>
-               <textarea
-                  rows={25}
-                  cols={50}
-                  value={objArrStr}
-                  onChange={e => setObjArrStr(e.target.value)}
-               />
-               <input
-                  type="button"
-                  value="Submit"
-                  onClick={e => handleSubmit()}
-               />
-            </form>
+         {/*        Form1 => Paste JSON array           */}
+         <form style={currentForm === "jsonArr" ? {} : { display: "none" }}>
+            <label>Paste Array_of_Objects: </label>
+            <textarea
+               rows={25}
+               cols={50}
+               value={objArrStr}
+               onChange={e => setObjArrStr(e.target.value)}
+            />
+            <input
+               type="button"
+               value="Submit"
+               onClick={e => handleSubmit()}
+            />
+         </form>
 
 
-            {/*         Form2 => Get Name for "JSON-API"             */}
-            <div style={currentForm === "apiName" ? {} : { display: "none" }}>
-               <ApiNameAndPassword
-                  apiName={apiName}
-                  setApiName={setApiName}
-                  password={password}
-                  setPassword={setPassword}
-               />
+         {/*         Form2 => Get Name for "JSON-API"             */}
+         <div style={currentForm === "apiName" ? {} : { display: "none" }}>
+            <ApiNameAndPassword
+               apiName={apiName}
+               setApiName={setApiName}
+               password={password}
+               setPassword={setPassword}
+            />
 
-               <input
-                  type="button"
-                  value="Submit"
-                  onClick={e => handleAPICreation(objArr, apiName, password, setMessage1)}
-               />
-            </div>
-
-            <h3> {message1} </h3>
+            <input
+               type="button"
+               value="Submit"
+               onClick={e => handleAPICreation(objArr, apiName, password, setMessage1)}
+            />
          </div>
-      </>
+
+         <h3> {message1} </h3>
+      </div>
+
    )
 }

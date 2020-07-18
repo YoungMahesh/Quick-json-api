@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useState } from "react"
 import { handleAPIDeleteion } from "../backend/manageAPIdata"
 
@@ -11,6 +12,12 @@ const DeleteAPI = () => {
 
    return (
       <div className="container">
+
+         <Head>
+            <title>Delete API</title>
+         </Head>
+
+
          <div style={currentForm === "deletePage" ? {} : { display: "none" }}>
             <label>API-Name: </label>
             <input

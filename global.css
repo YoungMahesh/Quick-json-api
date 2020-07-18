@@ -45,7 +45,7 @@ h1, h2, h3, p, a {
    text-align: center;
 }
 
-h1, h3, pre, p {                          /* used for pop-up messages*/
+h1, h2, h3, pre, p {                          /* used for pop-up messages*/
    font-family: monospace;
    color: var(--color-green-medium);
 }

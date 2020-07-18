@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useState, useEffect } from "react"
 import CreateArrOfObjects from "../components/2.create_array_of_obj"
 import { getObjArray, handleAPIModification } from '../backend/manageAPIdata'
@@ -28,6 +29,11 @@ const EditAPI = () => {
 
    return (
       <div className="container">
+
+         <Head>
+            <title>Edit API</title>
+         </Head>
+
 
          {/*         Form1 =>  Get ApiName     */}
          <div style={currentForm === "editPage" ? {} : { display: "none" }}>
