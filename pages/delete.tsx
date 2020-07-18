@@ -10,7 +10,7 @@ const DeleteAPI = () => {
 
 
    return (
-      <>
+      <div className="container">
          <div style={currentForm === "deletePage" ? {} : { display: "none" }}>
             <label>API-Name: </label>
             <input
@@ -38,7 +38,7 @@ const DeleteAPI = () => {
          </div>
 
          <h3>{message1}</h3>
-      </>
+      </div>
    )
 }
 

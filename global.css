@@ -1,13 +1,39 @@
-.container {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   margin-top: 50px;
+@font-face {
+   font-family: RobotoSlab-Light;
+   src: url(./public/fonts/RobotoSlab-Light.ttf) format("truetype");
+   font-weight: lighter;
+}
+
+@font-face {
+   font-family: RobotoSlab-Regular;
+   src: url(./public/fonts/RobotoSlab-Regular.ttf) format("truetype");
+   font-weight: normal;
+}
+
+:root {
+   --color-green-medium: #43c914;
+   --color-green-light: #5beb29;
+   --color-black1: #545358;
+}
+
+/* .grid {
+	display: grid;
+	grid-template-columns: var(--columns)
+} */
+
+body {
+   font-family: RobotoSlab-Regular, monospace;
+   font-size: 16px;
+   background-color: var(--color-black1);
+   margin: 0px;
 }
 
 a {
-   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   text-decoration: none;
+}
+
+label {
+   color: var(--color-green-medium);
 }
 
 input, button, label {
@@ -15,7 +41,75 @@ input, button, label {
    margin: 15px;
 }
 
+h1, h2, h3, p, a {
+   text-align: center;
+}
 
-h3 {
+h1, h3, pre, p {                          /* used for pop-up messages*/
    font-family: monospace;
+   color: var(--color-green-medium);
+}
+
+
+.container {
+   min-height: calc(100vh - 60px);
+   padding: 30px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+.block1, .block2 {
+   border-radius: 30px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition-duration: 0.2s;
+}
+
+.block1:hover, .block2:hover {
+   transform: scale(1.05);
+   position: relative;
+   bottom: 20px;
+}
+
+.block1 {
+   background-color: var(--color-green-medium);
+   width: 150px;
+   height: 140px;
+   font-size: 18px;
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 70px;
+   margin-bottom: 70px;
+}
+
+
+.block2-container {
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.block2 {
+   background-color: var(--color-green-light);
+   width: 135px;
+   height: 125px;
+   margin: 20px;
+}
+
+/*               Custom Classes                           */
+
+.center {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.green-medium {
+   color: var(--color-green-medium);
+}
+.green-light {
+   color: var(--color-green-light);
+   text-align: center;
 }

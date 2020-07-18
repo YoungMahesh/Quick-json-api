@@ -84,6 +84,7 @@ export const getObjArray = async (apiName: string, setMessage1: Function, setKey
 
 export const handleAPIModification = async (apiName: string, password: string, objArr: Array<Object>, setMessage1: Function) => {
 
+   setMessage1("Loading...")
    const dataObj = {
       apiName: apiName,
       password: password,
@@ -102,6 +103,8 @@ export const handleAPIModification = async (apiName: string, password: string, o
 
 
 export const handleAPIDeleteion = async (apiName: string, password: string, setMessage1: Function, setCurrenForm: Function) => {
+
+   setMessage1("Loading...")
    const dataObj = {
       apiName: apiName,
       password: password

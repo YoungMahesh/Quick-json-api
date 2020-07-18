@@ -10,29 +10,30 @@ const Home = () => {
 
          <div className="container">
 
-            <h3>
+            <Link href="/quick">
+               <a className="block1">Get a Random API</a>
+            </Link>
+
+
+            <div className="block2-container center">
+
                <Link href='/paste'>
-                  <a>Create API by pasting JSON array</a>
+                  <a className="block2">Create API by Pasting a JSON Array</a>
                </Link>
-            </h3>
 
-            <h3>
                <Link href="/create">
-                  <a>Create API by writing JSON object array</a>
+                  <a className="block2">Create API by Writing JSON Array</a>
                </Link>
-            </h3>
 
-            <h3>
                <Link href="/edit">
-                  <a>Edit your API</a>
+                  <a className="block2">Edit your API</a>
                </Link>
-            </h3>
 
-            <h3>
-               <Link href="delete">
-                  <a>Delete your API</a>
+               <Link href="/delete">
+                  <a className="block2">Delete your API</a>
                </Link>
-            </h3>
+
+            </div>
 
          </div>
       </>

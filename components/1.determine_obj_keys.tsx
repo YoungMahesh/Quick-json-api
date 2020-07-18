@@ -28,8 +28,8 @@ const DetermineObjKeys = ({ setCurrentForm, keysArr, setKeysArr, keysSet, setKey
 
 
    return (
-      <>
-         <h2>Determine Key-Fields for Each Object</h2>
+      <div className="container">
+         <h2 className="green-medium">Determine Key-Fields for Each Object</h2>
          {
             keysArr.map(el => <p key={el}>{el}</p>)
          }
@@ -53,7 +53,7 @@ const DetermineObjKeys = ({ setCurrentForm, keysArr, setKeysArr, keysSet, setKey
                onClick={handleSubmitForm1}
             />
          </form>
-      </>
+      </div>
    )
 }
 
