@@ -19,7 +19,7 @@ handler.get(async (req: reqWithMongo, res) => {
    console.log("GET request: executed with query ", req.query)
 
    try {
-      let doc = await req.db.collection("aaa111").findOne({ apiName: req.query.mongodb })
+      let doc = await req.db.collection(process.env.MONGODB_COLLECTION).findOne({ apiName: req.query.mongodb })
       if (doc === null) {
          console.log("GET request: Document no found.")
          res.status(400).end("API-Name not in use")
@@ -43,7 +43,7 @@ handler.post(async (req: reqWithMongo, res) => {
       let dataObj = await JSON.parse(req.body)
       dataObj.password = await bcrypt.hash(dataObj.password, saltRounds)
       // no schema is specified, hence once parsed any {key: value} combination will be stored
-      const doc = await req.db.collection("aaa111").insertOne(dataObj)
+      const doc = await req.db.collection(process.env.MONGODB_COLLECTION).insertOne(dataObj)
       console.log("POST request: Created\n", doc.ops)
       res.status(210).end()
    } catch (err) {
@@ -59,7 +59,7 @@ handler.patch(async (req: reqWithMongo, res) => {
    try {
       // dataObj => {apiName: xyz, password: xyz, arr1: [{}, {}, {}]}
       const dataObj = await JSON.parse(req.body)
-      const doc1 = await req.db.collection("aaa111").findOne({ apiName: dataObj.apiName })
+      const doc1 = await req.db.collection(process.env.MONGODB_COLLECTION).findOne({ apiName: dataObj.apiName })
       // doc1: {apiName: xyz, password: xyz, jsonArr:[{}, {}]}
       console.log("PATCH request: Document Found\n")    // already tested on first page of "edit.tsx"
       const isPassword = await bcrypt.compare(dataObj.password, doc1.password)
@@ -68,7 +68,7 @@ handler.patch(async (req: reqWithMongo, res) => {
          return res.status(400).end()
       }
 
-      const doc2 = await req.db.collection("aaa111").findOneAndUpdate({ apiName: dataObj.apiName }, { $set: { jsonArr: dataObj.arr1 } })
+      const doc2 = await req.db.collection(process.env.MONGODB_COLLECTION).findOneAndUpdate({ apiName: dataObj.apiName }, { $set: { jsonArr: dataObj.arr1 } })
       // if found, doc2.value: {apiName: xyz, password: xyz, jsonArr:[{}, {}]}
       // if not found, doc2.value: null
       if (doc2.value !== null) {
@@ -89,7 +89,7 @@ handler.delete(async (req: reqWithMongo, res) => {
       // dataObj = {apiName, xyz, password: xyz}
       const dataObj = JSON.parse(req.body)
 
-      const doc1 = await req.db.collection("aaa111").findOne({ apiName: dataObj.apiName })
+      const doc1 = await req.db.collection(process.env.MONGODB_COLLECTION).findOne({ apiName: dataObj.apiName })
       // doc1 if found: {apiName: xyz, password: xyz, jsonArr: [{}, {}]}
       if (doc1 === null) {       // doc1 if notFound: null
          console.log("DELETE request: Document not found")
@@ -102,7 +102,7 @@ handler.delete(async (req: reqWithMongo, res) => {
          return res.status(400).end()
       }
 
-      const doc2 = await req.db.collection("aaa111").findOneAndDelete({ apiName: dataObj.apiName })
+      const doc2 = await req.db.collection(process.env.MONGODB_COLLECTION).findOneAndDelete({ apiName: dataObj.apiName })
       // if deleted, doc2.value: {apiName, password, jsonArr}
       // if notDeleted, if found definitely going to delete as there is only one parameter which is "apiName"
       if (doc2.value !== null) {
