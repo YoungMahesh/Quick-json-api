@@ -2,8 +2,8 @@ import Head from 'next/head'
 import { useState } from "react"
 import DetermineObjKeys from '../components/1.determine_obj_keys'
 import CreateArrOfObjects from '../components/2.create_array_of_obj'
-import ApiNameAndPassword from '../components/3.apiName_and_password'
 import { handleAPICreation } from '../backend/manageAPIdata'
+import DispalyMSG from '../components/3.displayApiKey'
 
 
 const Create = () => {
@@ -18,8 +18,9 @@ const Create = () => {
    // crete object array
    const [objArr, setObjArr] = useState<Array<Object>>([])
    const [apiName, setApiName] = useState<string>("")
-   const [password, setPassword] = useState<string>("")
 
+   // Recieve API-Key
+   const [apiKey, setApiKey] = useState<string>("")
 
    return (
       <>
@@ -55,17 +56,24 @@ const Create = () => {
 
             {/* Form3 => Get Name for "JSON-API" */}
             <div style={currentForm === "apiName" ? {} : { display: "none" }}>
-               <ApiNameAndPassword
-                  apiName={apiName}
-                  setApiName={setApiName}
-                  password={password}
-                  setPassword={setPassword}
+               <label>API-Name: </label>
+               <input
+                  type="text"
+                  value={apiName}
+                  onChange={e => setApiName(e.target.value)}
                />
 
                <input
                   type="button"
                   value="Submit"
-                  onClick={e => handleAPICreation(objArr, apiName, password, setMessage1)}
+                  onClick={e => handleAPICreation(objArr, apiName, setMessage1, setCurrentForm, setApiKey)}
+               />
+            </div>
+
+            <div style={currentForm === "displayMsg" ? {} : { display: "none" }}>
+               <DispalyMSG
+                  apiName={apiName}
+                  apiKey={apiKey}
                />
             </div>
 

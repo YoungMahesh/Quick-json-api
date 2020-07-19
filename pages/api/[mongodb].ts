@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import nextConnect from 'next-connect'
-import mongodbConnection from '../../backend/mongodb'
+import mongodbConnection, { convertToObjectId } from '../../backend/mongodb'
 import corsMiddleware from '../../middleware/cors'
-import bcrypt from 'bcrypt'
-const saltRounds = 7
+
 
 interface reqWithMongo extends NextApiRequest {
    db: any
@@ -41,47 +40,43 @@ handler.post(async (req: reqWithMongo, res) => {
    try {
       // dataObj => {apiName: xyz, password: xyz, jsonArr: [{}]}
       let dataObj = await JSON.parse(req.body)
-      dataObj.password = await bcrypt.hash(dataObj.password, saltRounds)
       // no schema is specified, hence once parsed any {key: value} combination will be stored
       const doc = await req.db.collection(process.env.MONGODB_COLLECTION).insertOne(dataObj)
       console.log("POST request: Created\n", doc.ops)
-      res.status(210).end()
+      res.status(210).json({ "key": doc.ops[0]._id })
    } catch (err) {
       console.log("POST request: Problem with Server \n", err)
       res.status(500).end()
    }
 })
 
-
+// res => 210(updated)
 handler.patch(async (req: reqWithMongo, res) => {
    console.log("PATCH request: executed")
 
    try {
       // dataObj => {apiName: xyz, password: xyz, arr1: [{}, {}, {}]}
       const dataObj = await JSON.parse(req.body)
-      const doc1 = await req.db.collection(process.env.MONGODB_COLLECTION).findOne({ apiName: dataObj.apiName })
-      // doc1: {apiName: xyz, password: xyz, jsonArr:[{}, {}]}
-      console.log("PATCH request: Document Found\n")    // already tested on first page of "edit.tsx"
-      const isPassword = await bcrypt.compare(dataObj.password, doc1.password)
-      if (!isPassword) {
-         console.log("PATCH request: Password is wrong")
-         return res.status(400).end()
-      }
 
-      const doc2 = await req.db.collection(process.env.MONGODB_COLLECTION).findOneAndUpdate({ apiName: dataObj.apiName }, { $set: { jsonArr: dataObj.arr1 } })
+      const key1 = convertToObjectId(dataObj.apiKey)
+      const doc1 = await req.db.collection(process.env.MONGODB_COLLECTION).findOneAndUpdate({ apiName: dataObj.apiName, _id: key1 }, { $set: { jsonArr: dataObj.arr1 } }, { returnOriginal: false })
       // if found, doc2.value: {apiName: xyz, password: xyz, jsonArr:[{}, {}]}
       // if not found, doc2.value: null
-      if (doc2.value !== null) {
-         console.log("PATCH reqest: Document Updated")
-         res.status(210).end()
+      if (doc1.value === null) {
+         console.log("PATCH request: Document not found")
+         res.status(400).end()
       }
+
+      console.log("PATCH reqest: Document Updated\n", doc1.value)
+      res.status(210).end()
+
    } catch (err) {
       console.log("PATCH request : Problem with Server \n", err)
       res.status(500).end()
    }
 })
 
-
+// res => 200(deleted)
 handler.delete(async (req: reqWithMongo, res) => {
    console.log("DELETE request: executed")
 
@@ -89,26 +84,16 @@ handler.delete(async (req: reqWithMongo, res) => {
       // dataObj = {apiName, xyz, password: xyz}
       const dataObj = JSON.parse(req.body)
 
-      const doc1 = await req.db.collection(process.env.MONGODB_COLLECTION).findOne({ apiName: dataObj.apiName })
-      // doc1 if found: {apiName: xyz, password: xyz, jsonArr: [{}, {}]}
-      if (doc1 === null) {       // doc1 if notFound: null
-         console.log("DELETE request: Document not found")
+      const key1 = convertToObjectId(dataObj.apiKey)
+      const doc2 = await req.db.collection(process.env.MONGODB_COLLECTION).findOneAndDelete({ apiName: dataObj.apiName, _id: key1 })
+      // if deleted, doc2.value: {apiName, _id, jsonArr}
+      // if notDeleted, doc2.value = null
+      if (doc2.value === null) {
+         console.log("DELETE request: Document not found\n", doc2)
          return res.status(400).end()
       }
-
-      const isPassword = await bcrypt.compare(dataObj.password, doc1.password)
-      if (!isPassword) {
-         console.log("DELETE request: Password is wrong")
-         return res.status(400).end()
-      }
-
-      const doc2 = await req.db.collection(process.env.MONGODB_COLLECTION).findOneAndDelete({ apiName: dataObj.apiName })
-      // if deleted, doc2.value: {apiName, password, jsonArr}
-      // if notDeleted, if found definitely going to delete as there is only one parameter which is "apiName"
-      if (doc2.value !== null) {
-         console.log("DELETE request: Fullfilled")
-         return res.status(200).end()
-      }
+      console.log("DELETE request: Fullfilled\n", doc2.value)
+      res.status(200).end()
    } catch (err) {
       console.log("DELETE request: Problem with Server\n", err)
       res.status(500).end()

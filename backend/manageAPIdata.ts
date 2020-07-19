@@ -1,8 +1,8 @@
 import Router from 'next/router'
 
 
-const determineVaildity = (name: string, password: string) => {
-   if (name.length < 4 || name.length > 10 || password.length < 4 || password.length > 10) return false
+const determineVaildity = (name: string) => {
+   if (name.length < 4 || name.length > 10) return false
 
    const isValid = name.split('').every((el) => {
       if ((el.charCodeAt(0) >= 97 && el.charCodeAt(0) <= 122) ||   // a-z
@@ -17,32 +17,30 @@ const determineVaildity = (name: string, password: string) => {
    return isValid
 }
 
-export const checkValidity = (name: string, password: string, setMessage1: Function) => {
-   if (!determineVaildity(name, password)) {
-      setMessage1(`API-Name can only contain "[A-Z, a-z, 0-9, -, _]". 
-      Length of API-Name and Password should be between 4 and 10.`)
+export const checkValidity = (name: string, setMessage1: Function) => {
+   if (!determineVaildity(name)) {
+      setMessage1(`API-Name can only contain "[A-Z, a-z, 0-9, -, _]" and length should be between 4 and 10.`)
       return false
    }
    return true
 }
 
 
-export const handleAPICreation = async (objArr: Array<Object>, apiName: string, password: string, setMessage1: Function) => {
+export const handleAPICreation = async (objArr: Array<Object>, apiName: string, setMessage1: Function, setCurrentForm: Function, setApiKey: Function) => {
 
    // STEP1 => Check Name and Password Validity
-   if (!checkValidity(apiName, password, setMessage1)) return
+   if (!checkValidity(apiName, setMessage1)) return
    setMessage1("Loading...")
 
    // STEP2 => Check if apiName is already present
    const res1 = await fetch(`${process.env.BASE_URL}/api/${apiName}`)
-   if (res1.status !== 400) {
+   if (res1.status === 200) {
       return setMessage1("This name is already in use, try another")
    }
 
    // STEP3 => Create API
    const dataObj = {
       apiName: apiName,
-      password: password,
       jsonArr: objArr
    }
    try {
@@ -54,11 +52,14 @@ export const handleAPICreation = async (objArr: Array<Object>, apiName: string, 
       if (res2.status !== 210) {
          return setMessage1("problem in creating API")
       }
+
+      const data2 = await res2.json()
+      setMessage1("")
+      setApiKey(data2.key)
+      setCurrentForm("displayMsg")
    } catch (err) {
       setMessage1("Your JSON array structure is wrong.")
    }
-
-   Router.push(`/api/${apiName}`)
 }
 
 
@@ -82,12 +83,12 @@ export const getObjArray = async (apiName: string, setMessage1: Function, setKey
 }
 
 
-export const handleAPIModification = async (apiName: string, password: string, objArr: Array<Object>, setMessage1: Function) => {
+export const handleAPIModification = async (apiName: string, apiKey: string, objArr: Array<Object>, setMessage1: Function) => {
 
    setMessage1("Loading...")
    const dataObj = {
       apiName: apiName,
-      password: password,
+      apiKey: apiKey,
       arr1: objArr
    }
    const res1 = await fetch(`${process.env.BASE_URL}/api/${apiName}`, {
@@ -95,26 +96,26 @@ export const handleAPIModification = async (apiName: string, password: string, o
       body: JSON.stringify(dataObj)
    })
    if (res1.status !== 210) {
-      return setMessage1("Password you typed is incorrect")
+      return setMessage1("API-Key you provided is incorrect")
    }
 
    Router.push(`/api/${apiName}`)
 }
 
 
-export const handleAPIDeleteion = async (apiName: string, password: string, setMessage1: Function, setCurrenForm: Function) => {
+export const handleAPIDeleteion = async (apiName: string, apiKey: string, setMessage1: Function, setCurrenForm: Function) => {
 
    setMessage1("Loading...")
    const dataObj = {
       apiName: apiName,
-      password: password
+      apiKey: apiKey
    }
    const res1 = await fetch(`${process.env.BASE_URL}/api/${apiName}`, {
       method: "DELETE",
       body: JSON.stringify(dataObj)
    })
    if (res1.status !== 200) {
-      return setMessage1("Your APIName and Password combination is wrong. Try Again.")
+      return setMessage1("Your API-Name and API-Key combination is wrong. Try Again.")
    }
 
    setMessage1("")

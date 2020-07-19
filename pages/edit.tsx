@@ -10,13 +10,15 @@ const EditAPI = () => {
    const [currentForm, setCurrentForm] = useState<string>("editPage")
    const [message1, setMessage1] = useState<string>("")
 
-   // check API-Name and Password
+   // Get objArr using apiName
    const [apiName, setApiName] = useState<string>("")
-   const [password, setPassword] = useState<string>("")
 
    // Edit Object-Array and Submit
    const [keysArr, setKeysArr] = useState<Array<string>>([])
    const [objArr, setObjArr] = useState<Array<Object>>([])
+
+   // check apiKey before updation
+   const [apiKey, setApiKey] = useState<string>("")
 
 
    useEffect(() => {
@@ -69,18 +71,18 @@ const EditAPI = () => {
          {/*         Form3  =>   Add Password */}
          <div style={currentForm === "getPassword" ? {} : { display: "none" }}>
             <label>
-               Provide Password of this API:
+               Provide apiKey of this API:
             </label>
             <input
-               type="password"
-               value={password}
-               onChange={e => setPassword(e.target.value)}
+               type="text"
+               value={apiKey}
+               onChange={e => setApiKey(e.target.value)}
             />
 
             <input
                type="button"
                value="Submit"
-               onClick={e => handleAPIModification(apiName, password, objArr, setMessage1)}
+               onClick={e => handleAPIModification(apiName, apiKey, objArr, setMessage1)}
             />
          </div>
 

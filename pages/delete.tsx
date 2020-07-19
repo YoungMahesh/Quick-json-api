@@ -7,7 +7,7 @@ const DeleteAPI = () => {
    const [message1, setMessage1] = useState<string>("")
 
    const [apiName, setApiName] = useState<string>("")
-   const [password, setPassword] = useState<string>("")
+   const [apiKey, setApiKey] = useState<string>("")
 
 
    return (
@@ -26,17 +26,17 @@ const DeleteAPI = () => {
                onChange={e => setApiName(e.target.value)}
             />
 
-            <label>Password: </label>
+            <label>API-Key: </label>
             <input
-               type="password"
-               value={password}
-               onChange={e => setPassword(e.target.value)}
+               type="text"
+               value={apiKey}
+               onChange={e => setApiKey(e.target.value)}
             />
 
             <input
                type="button"
                value="Submit"
-               onClick={e => handleAPIDeleteion(apiName, password, setMessage1, setCurrentForm)}
+               onClick={e => handleAPIDeleteion(apiName, apiKey, setMessage1, setCurrentForm)}
             />
          </div>
 
