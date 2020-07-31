@@ -13,7 +13,7 @@ handler.use(mongodbConnection)
 handler.use(corsMiddleware)
 
 
-// RESPONSE =>    200(OK)     400(Problem)
+// RESPONSE =>    200(OK) 
 handler.get(async (req: reqWithMongo, res) => {
    console.log("GET request: executed with query ", req.query)
 
@@ -33,7 +33,7 @@ handler.get(async (req: reqWithMongo, res) => {
 })
 
 
-// RESPONSE =>    210(Created, Updated)      500(problem)
+// RESPONSE =>    210(Created, Updated)  
 handler.post(async (req: reqWithMongo, res) => {
    console.log("POST request: executed with query ", req.query)
 
