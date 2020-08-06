@@ -3,9 +3,14 @@ import Link from 'next/link'
 
 const Home = () => {
 	return (
-		<div className='container'>
+		<main id='container'>
 			<Head>
 				<title>Quick JSON API</title>
+				<meta
+					name='description'
+					content='Create, Edit, Delete JSON API, Get a demo JSON API'
+				/>
+				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
 			<Link href='/quick'>
@@ -29,7 +34,7 @@ const Home = () => {
 					<a className='block2'>Delete your API</a>
 				</Link>
 			</div>
-		</div>
+		</main>
 	)
 }
 

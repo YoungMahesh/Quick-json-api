@@ -2,12 +2,14 @@
 	font-family: RobotoSlab-Light;
 	src: url(./public/fonts/RobotoSlab-Light.ttf) format('truetype');
 	font-weight: lighter;
+	font-display: swap; /*  Show system font until this font is not loaded*/
 }
 
 @font-face {
 	font-family: RobotoSlab-Regular;
 	src: url(./public/fonts/RobotoSlab-Regular.ttf) format('truetype');
 	font-weight: normal;
+	font-display: swap;
 }
 
 :root {
@@ -58,7 +60,7 @@ p {
 	font-family: monospace;
 }
 
-.container {
+#container {
 	min-height: calc(100vh - 60px);
 	padding: 30px;
 	display: flex;
