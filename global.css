@@ -37,11 +37,6 @@ label {
 	margin: 15px;
 }
 
-button,
-input[type='button'] {
-	background-color: var(--color-box);
-	color: var(--color-box-text);
-}
 
 h1,
 h2,
