@@ -22,66 +22,68 @@ const Create = () => {
 	const [apiKey, setApiKey] = useState<string>('')
 
 	return (
-		<main id='container'>
+		<>
 			<Head>
-				<title>Create JSON</title>
+				<title>Create API by Write</title>
 				<meta name='description' content='Create a JSON API quickly' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			{/* Form1 => Get JSON_Object_Schema from the User */}
-			<div style={currentForm === 'objKeys' ? {} : { display: 'none' }}>
-				<DetermineObjKeys
-					setCurrentForm={setCurrentForm}
-					keysArr={keysArr}
-					setKeysArr={setKeysArr}
-					keysSet={keysSet}
-					setKeysSet={setKeysSet}
-				/>
-			</div>
+			<main>
+				{/* Form1 => Get JSON_Object_Schema from the User */}
+				<div style={currentForm === 'objKeys' ? {} : { display: 'none' }}>
+					<DetermineObjKeys
+						setCurrentForm={setCurrentForm}
+						keysArr={keysArr}
+						setKeysArr={setKeysArr}
+						keysSet={keysSet}
+						setKeysSet={setKeysSet}
+					/>
+				</div>
 
-			{/* Form2 => Create "Array of Objects" */}
-			<div style={currentForm === 'objArr' ? {} : { display: 'none' }}>
-				<CreateArrOfObjects
-					setMessage1={setMessage1}
-					setCurrentForm={setCurrentForm}
-					objArr={objArr}
-					setObjArr={setObjArr}
-					keysArr={keysArr}
-					editForm={false}
-				/>
-			</div>
+				{/* Form2 => Create "Array of Objects" */}
+				<div style={currentForm === 'objArr' ? {} : { display: 'none' }}>
+					<CreateArrOfObjects
+						setMessage1={setMessage1}
+						setCurrentForm={setCurrentForm}
+						objArr={objArr}
+						setObjArr={setObjArr}
+						keysArr={keysArr}
+						editForm={false}
+					/>
+				</div>
 
-			{/* Form3 => Get Name for "JSON-API" */}
-			<div style={currentForm === 'apiName' ? {} : { display: 'none' }}>
-				<label>API-Name: </label>
-				<input
-					type='text'
-					value={apiName}
-					onChange={(e) => setApiName(e.target.value)}
-				/>
+				{/* Form3 => Get Name for "JSON-API" */}
+				<div style={currentForm === 'apiName' ? {} : { display: 'none' }}>
+					<label>API-Name: </label>
+					<input
+						type='text'
+						value={apiName}
+						onChange={(e) => setApiName(e.target.value)}
+					/>
 
-				<input
-					type='button'
-					value='Submit'
-					onClick={(e) =>
-						handleAPICreation(
-							objArr,
-							apiName,
-							setMessage1,
-							setCurrentForm,
-							setApiKey
-						)
-					}
-				/>
-			</div>
+					<input
+						type='button'
+						value='Submit'
+						onClick={(e) =>
+							handleAPICreation(
+								objArr,
+								apiName,
+								setMessage1,
+								setCurrentForm,
+								setApiKey
+							)
+						}
+					/>
+				</div>
 
-			<div style={currentForm === 'displayMsg' ? {} : { display: 'none' }}>
-				<DispalyMSG apiName={apiName} apiKey={apiKey} />
-			</div>
+				<div style={currentForm === 'displayMsg' ? {} : { display: 'none' }}>
+					<DispalyMSG apiName={apiName} apiKey={apiKey} />
+				</div>
 
-			<h3>{message1}</h3>
-		</main>
+				<h4>{message1}</h4>
+			</main>
+		</>
 	)
 }
 

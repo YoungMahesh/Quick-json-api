@@ -5,23 +5,23 @@ const Quick = () => {
 	const listOfAPIs = ['vehicles', 'accounts', 'shoppings', 'tasks']
 
 	return (
-		<main id='container'>
+		<>
 			<Head>
-				<title>Random API</title>
+				<title>Get a Random API</title>
 				<meta name='description' content='Get a demo JSON API' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<div className='block2-container'>
+			<main>
 				{listOfAPIs.map((apiName, idx) => (
 					<div key={idx}>
 						<Link href={`/api/${apiName}`}>
-							<a className='block2'>{apiName}</a>
+							<a className='block'>{apiName}</a>
 						</Link>
 					</div>
 				))}
-			</div>
-		</main>
+			</main>
+		</>
 	)
 }
 

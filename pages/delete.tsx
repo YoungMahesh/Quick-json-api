@@ -10,48 +10,51 @@ const DeleteAPI = () => {
 	const [apiKey, setApiKey] = useState<string>('')
 
 	return (
-		<main id='container'>
+		<>
 			<Head>
 				<title>Delete API</title>
 				<meta name='description' content='Delete your JSON api' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<div style={currentForm === 'deletePage' ? {} : { display: 'none' }}>
-				<label>API-Name: </label>
-				<input
-					type='text'
-					value={apiName}
-					onChange={(e) => setApiName(e.target.value)}
-				/>
+			<main>
+				<div style={currentForm === 'deletePage' ? {} : { display: 'none' }}>
+					<label>API-Name: </label>
+					<input
+						type='text'
+						value={apiName}
+						onChange={(e) => setApiName(e.target.value)}
+					/>
 
-				<label>API-Key: </label>
-				<input
-					type='text'
-					value={apiKey}
-					onChange={(e) => setApiKey(e.target.value)}
-				/>
+					<label>API-Key: </label>
+					<input
+						type='text'
+						value={apiKey}
+						onChange={(e) => setApiKey(e.target.value)}
+					/>
 
-				<input
-					type='button'
-					value='Submit'
-					onClick={(e) =>
-						handleAPIDeleteion(
-							apiName,
-							apiKey,
-							setMessage1,
-							setCurrentForm
-						)
-					}
-				/>
-			</div>
+					<input
+						type='button'
+						value='Submit'
+						onClick={(e) =>
+							handleAPIDeleteion(
+								apiName,
+								apiKey,
+								setMessage1,
+								setCurrentForm
+							)
+						}
+					/>
+				</div>
 
-			<div style={currentForm === 'deleted' ? {} : { display: 'none' }}>
-				<h1>{`API with name: "${apiName}", succesfully deleted.`}</h1>
-			</div>
+				<div style={currentForm === 'deleted' ? {} : { display: 'none' }}>
+					<h1>{`API with name: "${apiName}", succesfully deleted.`}</h1>
+				</div>
 
-			<h3>{message1}</h3>
-		</main>
+				<h4>{message1}</h4>
+
+			</main>
+		</>
 	)
 }
 

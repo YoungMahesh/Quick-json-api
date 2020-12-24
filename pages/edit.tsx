@@ -25,63 +25,65 @@ const EditAPI = () => {
 	}, [objArr])
 
 	return (
-		<main id='container'>
+		<>
 			<Head>
 				<title>Edit API</title>
 				<meta name='description' content='Edit JSON API' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			{/*         Form1 =>  Get ApiName     */}
-			<div style={currentForm === 'editPage' ? {} : { display: 'none' }}>
-				<label>Provide API-Name:</label>
-				<input
-					type='text'
-					value={apiName}
-					onChange={(e) => setApiName(e.target.value)}
-				/>
+			<main>
+				{/*         Form1 =>  Get ApiName     */}
+				<div style={currentForm === 'editPage' ? {} : { display: 'none' }}>
+					<label>Provide API-Name:</label>
+					<input
+						type='text'
+						value={apiName}
+						onChange={(e) => setApiName(e.target.value)}
+					/>
 
-				<input
-					type='button'
-					value='Submit'
-					onClick={(e) =>
-						getObjArray(apiName, setMessage1, setKeysArr, setObjArr)
-					}
-				/>
-			</div>
+					<input
+						type='button'
+						value='Submit'
+						onClick={(e) =>
+							getObjArray(apiName, setMessage1, setKeysArr, setObjArr)
+						}
+					/>
+				</div>
 
-			{/*         Form2  =>  Edit API               */}
-			<div style={currentForm === 'objArr' ? {} : { display: 'none' }}>
-				<CreateArrOfObjects
-					setMessage1={setMessage1}
-					objArr={objArr}
-					setObjArr={setObjArr}
-					setCurrentForm={setCurrentForm}
-					keysArr={keysArr}
-					editForm={true}
-				/>
-			</div>
+				{/*         Form2  =>  Edit API               */}
+				<div style={currentForm === 'objArr' ? {} : { display: 'none' }}>
+					<CreateArrOfObjects
+						setMessage1={setMessage1}
+						objArr={objArr}
+						setObjArr={setObjArr}
+						setCurrentForm={setCurrentForm}
+						keysArr={keysArr}
+						editForm={true}
+					/>
+				</div>
 
-			{/*         Form3  =>   Add Password */}
-			<div style={currentForm === 'getPassword' ? {} : { display: 'none' }}>
-				<label>Provide apiKey of this API:</label>
-				<input
-					type='text'
-					value={apiKey}
-					onChange={(e) => setApiKey(e.target.value)}
-				/>
+				{/*         Form3  =>   Add Password */}
+				<div style={currentForm === 'getPassword' ? {} : { display: 'none' }}>
+					<label>Provide apiKey of this API:</label>
+					<input
+						type='text'
+						value={apiKey}
+						onChange={(e) => setApiKey(e.target.value)}
+					/>
 
-				<input
-					type='button'
-					value='Submit'
-					onClick={(e) =>
-						handleAPIModification(apiName, apiKey, objArr, setMessage1)
-					}
-				/>
-			</div>
+					<input
+						type='button'
+						value='Submit'
+						onClick={(e) =>
+							handleAPIModification(apiName, apiKey, objArr, setMessage1)
+						}
+					/>
+				</div>
 
-			<h3>{message1}</h3>
-		</main>
+				<h4>{message1}</h4>
+			</main>
+		</>
 	)
 }
 

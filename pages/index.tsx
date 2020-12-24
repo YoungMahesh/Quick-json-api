@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Home = () => {
 	return (
-		<main id='container'>
+		<div id='container'>
 			<Head>
 				<title>Quick JSON API</title>
 				<meta
@@ -13,28 +13,36 @@ const Home = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<Link href='/quick'>
-				<a className='block1'>Get a Random API Quickly</a>
-			</Link>
+			<header>
+				<h3>Quick-JSON-API</h3>
+				<h4>| <a href='https://github.com/YoungMahesh/Quick-json-api' target='_blank' >View Source</a></h4>
+			</header>
 
-			<div className='block2-container center'>
+			<main>
+				<Link href='/quick'>
+					<a className='block'>Get a Random API Quickly</a>
+				</Link>
 				<Link href='/paste'>
-					<a className='block2'>Create API by Paste</a>
+					<a className='block'>Create API by Paste</a>
 				</Link>
 
 				<Link href='/create'>
-					<a className='block2'>Create API by Write</a>
+					<a className='block'>Create API by Write</a>
 				</Link>
 
 				<Link href='/edit'>
-					<a className='block2'>Edit your API</a>
+					<a className='block'>Edit your API</a>
 				</Link>
 
 				<Link href='/delete'>
-					<a className='block2'>Delete your API</a>
+					<a className='block'>Delete your API</a>
 				</Link>
-			</div>
-		</main>
+			</main>
+
+			<footer>
+				<h4>Note: APIs created here, are going to be preserved atleast upto 31st March 2021.</h4>
+			</footer>
+		</div>
 	)
 }
 
