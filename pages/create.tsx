@@ -5,14 +5,49 @@ import CreateArrOfObjects from '../components/2.create_array_of_obj'
 import { handleAPICreation } from '../backend/manageAPIdata'
 import DispalyMSG from '../components/3.displayApiKey'
 
+
+import { Machine, assign } from 'xstate'
+import { useMachine } from '@xstate/react'
+
+
+interface DeterminKeysContext {
+	keysSet0: Set<string>
+	keysArr0: Array<string>
+}
+interface DetermineKeysSchema {
+	states: {
+		active: {}
+	}
+}
+type DetermineKeysEvent = { type: 'SET_ADD'; currKey: string }
+
+const determinKeysMachine = Machine<DeterminKeysContext, DetermineKeysSchema, DetermineKeysEvent>({
+	id: 'determine-keys',
+	initial: 'active',
+	context: {
+		keysSet0: new Set(''),
+		keysArr0: []
+	},
+	states: {
+		active: {
+			on: {
+				SET_ADD: {
+					actions: assign({
+						keysSet0: (ctx, ev) => ctx.keysSet0.add(ev.currKey), keysArr0: (ctx) => Array.from(ctx.keysSet0),
+					})
+				},
+			}
+		}
+	}
+})
+
 const Create = () => {
 	// display one form at a time
 	const [currentForm, setCurrentForm] = useState<string>('objKeys')
 	const [message1, setMessage1] = useState<string>('')
 
-	// determine object keys
-	const [keysSet, setKeysSet] = useState<Set<string>>(new Set())
-	const [keysArr, setKeysArr] = useState<Array<string>>([])
+	// determine object-keys using xstate
+	const [keysSet3, sendKeysSet3] = useMachine(determinKeysMachine)
 
 	// crete object array
 	const [objArr, setObjArr] = useState<Array<Object>>([])
@@ -34,10 +69,9 @@ const Create = () => {
 				<div style={currentForm === 'objKeys' ? {} : { display: 'none' }}>
 					<DetermineObjKeys
 						setCurrentForm={setCurrentForm}
-						keysArr={keysArr}
-						setKeysArr={setKeysArr}
-						keysSet={keysSet}
-						setKeysSet={setKeysSet}
+						keysSet3={keysSet3.context.keysSet0}
+						keysArr3={keysSet3.context.keysArr0}
+						sendKeysSet3={sendKeysSet3}
 					/>
 				</div>
 
@@ -48,7 +82,7 @@ const Create = () => {
 						setCurrentForm={setCurrentForm}
 						objArr={objArr}
 						setObjArr={setObjArr}
-						keysArr={keysArr}
+						keysArr={keysSet3.context.keysArr0}
 						editForm={false}
 					/>
 				</div>

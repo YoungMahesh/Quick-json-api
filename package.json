@@ -1,24 +1,29 @@
 {
-  "name": "nextjs-server2",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "@types/cors": "^2.8.6",
-    "cors": "^2.8.5",
-    "mongodb": "^3.5.9",
-    "next": "^10.0.4",
-    "next-connect": "^0.8.1",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-uuid": "^1.0.2"
-  },
-  "devDependencies": {
-    "@types/react": "^16.9.42",
-    "typescript": "^3.9.6"
-  }
+	"name": "nextjs-server2",
+	"version": "1.0.0",
+	"engines": {
+		"node": "12.x"
+	},
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start"
+	},
+	"dependencies": {
+		"@types/cors": "^2.8.6",
+		"@xstate/react": "^1.2.2",
+		"cors": "^2.8.5",
+		"mongodb": "^3.5.9",
+		"next": "^10.0.4",
+		"next-connect": "^0.8.1",
+		"react": "16.13.1",
+		"react-dom": "16.13.1",
+		"react-uuid": "^1.0.2",
+		"xstate": "^4.15.3"
+	},
+	"devDependencies": {
+		"@types/react": "^16.9.42",
+		"typescript": "^3.9.6"
+	}
 }
