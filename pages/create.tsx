@@ -11,7 +11,6 @@ import { useMachine } from '@xstate/react'
 
 
 interface DeterminKeysContext {
-	keysSet0: Set<string>
 	keysArr0: Array<string>
 }
 interface DetermineKeysSchema {
@@ -19,23 +18,33 @@ interface DetermineKeysSchema {
 		active: {}
 	}
 }
-type DetermineKeysEvent = { type: 'SET_ADD'; currKey: string }
+type DetermineKeysEvent = { type: 'ARR_ADD'; currKey: string } | { type: 'ARR_REMOVE'; currKey: string }
 
 const determinKeysMachine = Machine<DeterminKeysContext, DetermineKeysSchema, DetermineKeysEvent>({
 	id: 'determine-keys',
 	initial: 'active',
 	context: {
-		keysSet0: new Set(''),
 		keysArr0: []
 	},
 	states: {
 		active: {
 			on: {
-				SET_ADD: {
+				ARR_ADD: {
 					actions: assign({
-						keysSet0: (ctx, ev) => ctx.keysSet0.add(ev.currKey), keysArr0: (ctx) => Array.from(ctx.keysSet0),
+						keysArr0: (ctx, ev) => {
+							const keysArr1 = ctx.keysArr0
+							if (!keysArr1.find(el => el === ev.currKey)) {
+								keysArr1.push(ev.currKey)
+							}
+							return keysArr1
+						},
 					})
 				},
+				ARR_REMOVE: {
+					actions: assign({
+						keysArr0: (ctx, ev) => ctx.keysArr0.filter(el => el != ev.currKey)
+					})
+				}
 			}
 		}
 	}
@@ -47,7 +56,7 @@ const Create = () => {
 	const [message1, setMessage1] = useState<string>('')
 
 	// determine object-keys using xstate
-	const [keysSet3, sendKeysSet3] = useMachine(determinKeysMachine)
+	const [keysArr3, sendKeysArr3] = useMachine(determinKeysMachine)
 
 	// crete object array
 	const [objArr, setObjArr] = useState<Array<Object>>([])
@@ -69,9 +78,8 @@ const Create = () => {
 				<div style={currentForm === 'objKeys' ? {} : { display: 'none' }}>
 					<DetermineObjKeys
 						setCurrentForm={setCurrentForm}
-						keysSet3={keysSet3.context.keysSet0}
-						keysArr3={keysSet3.context.keysArr0}
-						sendKeysSet3={sendKeysSet3}
+						keysArr3={keysArr3.context.keysArr0}
+						sendKeysArr3={sendKeysArr3}
 					/>
 				</div>
 
@@ -82,7 +90,7 @@ const Create = () => {
 						setCurrentForm={setCurrentForm}
 						objArr={objArr}
 						setObjArr={setObjArr}
-						keysArr={keysSet3.context.keysArr0}
+						keysArr={keysArr3.context.keysArr0}
 						editForm={false}
 					/>
 				</div>

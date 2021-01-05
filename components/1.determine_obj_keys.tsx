@@ -4,19 +4,22 @@ import { useState } from "react"
 
 interface propsList {
 	setCurrentForm: Function
-	keysSet3: Set<string>
 	keysArr3: Array<string>
-	sendKeysSet3: Function
+	sendKeysArr3: Function
 }
 
 
-const DetermineObjKeys = ({ setCurrentForm, keysSet3, keysArr3, sendKeysSet3 }: propsList) => {
+const DetermineObjKeys = ({ setCurrentForm, keysArr3, sendKeysArr3 }: propsList) => {
 
 	const [currentKey, setCurrentKey] = useState("")
 
 	const handleKeyInput = () => {
-		sendKeysSet3('SET_ADD', { currKey: currentKey })
+		sendKeysArr3('ARR_ADD', { currKey: currentKey })
 		setCurrentKey("")
+	}
+
+	const handleKeyRemove = (key: string) => {
+		sendKeysArr3('ARR_REMOVE', { currKey: key })
 	}
 
 	const handleSubmitForm1 = () => {
@@ -30,7 +33,13 @@ const DetermineObjKeys = ({ setCurrentForm, keysSet3, keysArr3, sendKeysSet3 }: 
 		<div className="container">
 			<h2 className="green-medium">Determine Key-Fields for Each Object</h2>
 			{
-				keysArr3.map(el => <p key={el}>{el}</p>)
+				keysArr3.map(el => (
+					<div key={keysArr3.indexOf(el)} style={{ display: 'flex', justifyContent: 'space-around' }}>
+						<p>{el}</p>
+						<button onClick={() => handleKeyRemove(el)}
+						>remove</button>
+					</div>
+				))
 			}
 			<form>
 				<label>
