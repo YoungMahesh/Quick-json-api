@@ -2,7 +2,7 @@ import Router from 'next/router'
 
 
 const determineVaildity = (name: string) => {
-	if (name.length < 4 || name.length > 10) return false
+	if (name.length < 2 || name.length > 20) return false
 
 	const isValid = name.split('').every((el) => {
 		if ((el.charCodeAt(0) >= 97 && el.charCodeAt(0) <= 122) ||   // a-z
@@ -19,7 +19,7 @@ const determineVaildity = (name: string) => {
 
 export const checkValidity = (name: string, setMessage1: Function) => {
 	if (!determineVaildity(name)) {
-		setMessage1(`API-Name can only contain "[A-Z, a-z, 0-9, -, _]" and length should be between 4 and 10.`)
+		setMessage1(`API-Name can only contain "[A-Z, a-z, 0-9, -, _]" and length should be between 2 and 20.`)
 		return false
 	}
 	return true
